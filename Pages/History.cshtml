@@ -1,0 +1,63 @@
+﻿@page
+@model CRMSystem.Pages.HistoryModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "Layouts/_Layout";
+}
+
+
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <h2>Ваши последние посещения</h2>
+    </div>
+    <div class="row pt-4">
+        <table class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Дата и время посещения
+                    </th>
+                    <th>
+                        Процедура
+                    </th>
+                    <th>
+                        Доктор
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>03.06.2022</td>
+                    <td>Консультация хирурга повторная </td> 
+                    <td>Петров Иван</td>
+                </tr>
+                <tr>
+                    <td>12.05.2022</td>
+                    <td>Удаление фибромы </td> 
+                    <td>Иванов Петр</td>
+                </tr>
+                <tr>
+                    <td>05.05.2022</td> 
+                    <td>Консультация хирурга первичная </td> 
+                    <td>Петров Иван</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row pt-4">
+    <div class="col-6">
+        <button class="btn btn-primary">Go to Analytics page</button>
+    </div>
+    </div>
+</div>
+
+<br />
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <button class="btn btn-primary">Go to Analytics page</button>
+        </div>
+    </div>
+</div>

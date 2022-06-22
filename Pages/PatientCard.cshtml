@@ -1,0 +1,110 @@
+﻿@page "{id:int}"
+@model CRMSystem.Pages.PatientCardModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "Layouts/_Layout";
+}
+
+<br /><br />
+
+<div class="container" style="width:1000px">
+    <div class="row">
+        
+        <h2 class="text-center">Карточка пациента </h2>
+        <br />
+    </div>
+    <div class="row">
+        <h3 class="text-center">@Model.Patient.LastName @Model.Patient.FirstName @Model.Patient.PaternalName</h3>
+    </div>
+    <div class="row justify-content-center align-items-center">
+        <span class="badge bg-primary" style="max-width:50%">Номер телефона: @Model.Patient.PhoneNumber</span>
+    </div>
+    <br />
+    <div class="row">
+
+        <div class="col-4">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                 Общая выручка по пациенту: @Model.PatientAppointments.Where(a => a.IsMissed == false).Sum(a => a.Price)
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Всего записей сделано: @Model.PatientAppointments.Count
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Записей посещено: @Model.PatientAppointments.Where(a => a.IsMissed == false).Count()
+              </li>
+            </ul>            
+        </div>
+
+        <div class="col-4">
+            <div class="text" style="font-style:oblique">Самые посещаемые услуги:</div>
+            @foreach (var procedure in Model.PatientAppointments.Where(a => a.IsMissed == false).GroupBy(a => a.Procedure).Select(group => new{procedure = group.Key, count = group.Count()}).OrderByDescending(g => g.count))
+            {
+                <div>@procedure.procedure.Name - @procedure.count</div>
+            }
+        </div>
+        <div class="col-4">
+            <div class="text" style="font-style:oblique">Самые посещаемые специалисты:</div>
+            @foreach (var doctor in Model.PatientAppointments.Where(a => a.IsMissed == false).GroupBy(a => a.Doctor).Select(group => new{doctor = group.Key, count = group.Count()}).OrderByDescending(g => g.count))
+            {
+                <div>@doctor.doctor.LastName @doctor.doctor.FirstName - @doctor.count</div>
+            }
+        </div>
+    </div>
+    <br /><br />
+    <div class="row align-content-center">
+        <h3 class="text-center">История посещений</h3>
+        <table class="table table-striped" style="width:100%">
+                <thead class="text-center">
+                    <tr>
+                        <th>
+                            Дата и время посещения
+                        </th>
+                        <th>
+                            Процедура
+                        </th>
+                        <th>
+                            Специалист
+                        </th>
+                        <th>
+                            Цена
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @foreach(var a in Model.PatientAppointments)
+                    {
+                        
+                        <tr class="text-center">
+                            <td>
+                                @a.DatetimeStart
+                            </td>
+                            <td>
+                                @a.Procedure.Name
+                            </td>
+                            <td>
+                                @a.Doctor.LastName @a.Doctor.FirstName @a.Doctor.PaternalName
+                            </td>
+                            <td>
+                            @if(a.Price is not null)
+                            {
+                                @a.Price
+                            }
+                            </td>
+                            <td>
+                            @if (a.IsMissed == true)
+                            {
+                                <div class="text-center" style="background-color:#ff7851; color:white">Запись пропущена</div>
+                            }
+                            else
+                            {
+                                <div class="text-center" style="background-color:#56cc9d; color:white">Запись была посещена</div>
+                            }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+</div>

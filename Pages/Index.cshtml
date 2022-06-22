@@ -1,0 +1,383 @@
+﻿@page
+@model CRMSystem.Pages.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "Layouts/_Layout";
+}
+<br />
+<div class="container" style="max-width:1000px">
+    <div class="row">
+        <div class="col-4">
+            <div class="list-group">
+              <a class="list-group-item list-group-item-action active"><h3>Аналитика</h3></a>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="list-group">
+              <a class="list-group-item list-group-item-action active"><h3>Клиенты</h3></a>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="list-group">
+              <a class="list-group-item list-group-item-action active"><h3>Расписание</h3></a>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-4 justify-content-center">
+            @*<h3 style="background-color:#78c2ad; color:white">Модуль аналитики</h3>*@
+            <div class="list-group">
+              <a asp-page="./Dashboard" asp-route-date="@DateTime.Today.ToString()" class="list-group-item list-group-item-action">Дэшборд</a>
+              <a asp-page="./ProceduresAnalytics" class="list-group-item list-group-item-action">Статистика по процедурам</a>
+              <a asp-page="./SpecialistsAnalytics" class="list-group-item list-group-item-action">Статистика по специалистам</a>
+            </div>
+        </div>
+        <br />
+        <div class="col-4 justify-content-center">
+            @*<h3>База данных пациентов</h3>*@
+            <div class="list-group">
+              <a asp-page="./PatientsDatabase" class="list-group-item list-group-item-action">Электронная база пациентов</a>
+            </div>
+        </div>
+        <div class="col-4 justify-content-center">
+            <div class="list-group">
+              <a asp-page="./Schedule" asp-route-date="@DateTime.Today.ToString()" class="list-group-item list-group-item-action">Журнал записей</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@*<div class="container" style="max-width:720px">
+    <div class="row pt-4 align-content-lg-center">
+            <table class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Дата и время посещения
+                        </th>
+                        <th>
+                            Процедура
+                        </th>
+                        <th>
+                            Доктор
+                        </th>
+                        <th>
+                            Пациент
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var a in Model.apps)
+                    {
+                        <tr>
+                        <td>
+                            @a.DatetimeStart
+                        </td>
+                        <td>
+                            @a.Procedure.Name
+                        <td>
+                            @a.Doctor.LastName @a.Doctor.FirstName @a.Doctor.PaternalName
+                        </td>
+                        <td>
+                            @a.Patient.LastName @a.Patient.FirstName @a.Patient.PaternalName
+                        </td>
+                        <td>
+                            @a.IsDeleted
+                        </td>
+                        <td>
+                            @a.IsMissed
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+    <div class="row text-center">
+        <div class="text-center">
+            <a asp-page="History" class="btn btn-primary mb-3" style="width:150px height:50px">
+                Go to visits history page
+            </a>
+        </div>
+    </div>
+</div>
+*@
+
+
+@*
+<!-- Pills navs -->
+<div class="container-fluid d-flex h-100 justify-content-center align-items-center p-3">
+    <div class="row bg-white shadow-sm">
+        <div class="nav nav-tabs" id="tab" role="tablist">
+            <!-- атрибут data-bs-target должен указывать на элемент, который необходимо показать -->
+            <button class="nav-link active" id="tab-section-1" data-bs-toggle="tab" data-bs-target="#section-1" type="button" role="tab" aria-controls="nav-section-1" aria-selected="true">Вход</button>
+            <button class="nav-link" id="tab-section-2" data-bs-toggle="tab" data-bs-target="#section-2" type="button" role="tab" aria-controls="nav-section-2" aria-selected="false">Регистрация</button>
+            
+        </div>
+        @*<ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+            <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
+                aria-controls="pills-login" aria-selected="true">Вход</a>
+            </li>
+            <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
+                aria-controls="pills-register" aria-selected="false">Регистрация</a>
+            </li>
+        </ul>
+        <!-- Pills navs -->
+
+        <!-- Pills content -->
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tabs-login" role="tabpanel" aria-labelledby="tab-login">
+            <form>
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                <input type="email" id="loginName" class="form-control" />
+                <label class="form-label" for="loginName">Номер телефона или логин</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                <input type="password" id="loginPassword" class="form-control" />
+                <label class="form-label" for="loginPassword">Пароль</label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4">Войти</button>
+
+            </form>
+            </div>
+            <div class="tab-pane fade" id="tabs-register" role="tabpanel" aria-labelledby="tab-register">
+            <form>
+
+                <!-- Name input -->
+                <div class="form-outline mb-4">
+                <input type="text" id="registerName" class="form-control" />
+                <label class="form-label" for="registerName">Имя</label>
+                </div>
+
+                <!-- Username input -->
+                <div class="form-outline mb-4">
+                <input type="text" id="registerUsername" class="form-control" />
+                <label class="form-label" for="registerUsername">Логин</label>
+                </div>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                <input type="email" id="registerEmail" class="form-control" />
+                <label class="form-label" for="registerEmail">Номер телефона</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                <input type="password" id="registerPassword" class="form-control" />
+                <label class="form-label" for="registerPassword">Пароль</label>
+                </div>
+
+                <!-- Repeat Password input -->
+                <div class="form-outline mb-4">
+                <input type="password" id="registerRepeatPassword" class="form-control" />
+                <label class="form-label" for="registerRepeatPassword">Повторите пароль</label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-3">Зарегистрироваться</button>
+            </form>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mb-4">Авторизоваться как администратор</button>
+        </div>
+</div>
+</div>
+<a asp-page="./History">History</a>
+
+<h2 class="text-center">Ваши последние посещения</h2>
+
+<div class="container p-3">
+    <table class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Дата и время посещения
+                </th>
+                <th>
+                    Процедура
+                </th>
+                <th>
+                    Доктор
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>03.06.2022</td>
+                <td>Консультация хирурга повторная </td> 
+                <td>Петров Иван</td>
+            </tr>
+            <tr>
+                <td>12.05.2022</td>
+                <td>Удаление фибромы </td> 
+                <td>Иванов Петр</td>
+            </tr>
+            <tr>
+                <td>05.05.2022</td> 
+                <td>Консультация хирурга первичная </td> 
+                <td>Петров Иван</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<h2 class="text-center">Новая запись</h2>
+<br><br>
+<div class="container p-4">
+    <div class="row"></div>
+    <div class="row">
+        <div class="col-4">
+            <div>Выберите процедуру:</div>
+        </div>
+        <div class="col">
+            <div class="dropdown">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Список процедур
+                  </button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col-4">
+            <div>Выберите врача:</div>
+        </div>
+        <div class="col">
+            <div class="dropdown">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Список врачей
+                  </button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col-4">
+            <div>Введите дату:</div>
+        </div>
+        <div class="col">
+                <input type="datetime-local" />
+        </div>
+    </div>
+    </div>
+
+
+<h2 class="text-center">Аналитический дэшборд за сегодня</h2>
+<div class="divider py-1 bg-success"></div>
+ <br><br>
+<div class="container p-3">
+    <div class="row">
+        <div class="col-4">
+            <div class="card" style="width: 18rem;height: 9rem;">
+              <div class="card-body">
+                <h5 class="card-title">30405</h5>
+                <p class="card-text">Выручка за сегодня</p>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card" style="width: 18rem;height: 9rem;">
+              <div class="card-body">
+                <h5 class="card-title">20</h5>
+                <p class="card-text">Количество посещённых записей</p>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card" style="width: 18rem;height: 9rem;">
+              <div class="card-body">
+                <h5 class="card-title">22</h5>
+                <p class="card-text">Количество запланированных записей</p>
+              </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col-4">
+            <div class="card" style="width: 18rem;height: 9rem;">
+              <div class="card-body">
+                <h5 class="card-title">Консультация врача-хирурга - 5700</h5>
+                <p class="card-text">Самая прибыльная услуга</p>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card" style="width: 18rem;height: 9rem;">
+              <div class="card-body">
+                <h5 class="card-title">Петров Иван - 3200</h5>
+                <p class="card-text">Самый эффективный специалист</p>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card" style="width: 18rem;height: 9rem;">
+              <div class="card-body">
+                <h5 class="card-title">1213</h5>
+                <p class="card-text">Средний чек</p>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h2 class="text-center">Запланированные записи на сегодня</h2>
+
+<div class="container p-3">
+    <table class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Дата и время начала
+                </th>
+                <th>
+                    Дата и время конца
+                </th>
+                <th>
+                    Процедура
+                </th>
+                <th>
+                    Доктор
+                </th>
+                <th>
+                    Пациент
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>09.06.2022 11:00</td>
+                <td>09.06.2022 11:20</td>
+                <td>Консультация хирурга повторная </td> 
+                <td>Петров Иван</td>
+                <td>Степанов Сергей</td>
+            </tr>
+            <tr>
+                <td>09.06.2022 11:20</td>
+                <td>09.06.2022 11:50</td>
+                <td>Удаление фибромы </td> 
+                <td>Иванов Петр</td>
+                <td>Смирнова Елена</td>
+            </tr>
+            <tr>
+                <td>09.06.2022 11:50</td>
+                <td>09.06.2022 12:10</td>
+                <td>Консультация хирурга первичная </td> 
+                <td>Букина Надежда</td>
+                <td>Кленов Антон</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+*@

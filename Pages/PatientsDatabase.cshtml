@@ -1,0 +1,58 @@
+﻿@page
+@model CRMSystem.Pages.PatientsDatabaseModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "Layouts/_Layout";
+}
+
+<br />
+<h2 class="text-center">Электронная база пациентов</h2>
+<div class="container" style="max-width:720px">
+    <div class="row pt-4 align-content-lg-center">
+            <table class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="text-center">
+                                Ф.И.О
+                            </div>
+
+                        </th>
+                        <th align.center>
+                            Номер телефона
+                        </th>
+                        <th>
+                            Выручка по клиенту
+                        </th>
+                        <th>
+                            Всего сделано записей
+                        </th>
+                        <th>
+                            Всего посещённых записей
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var p in Model.Patients)
+                    {
+                        <tr>
+                        <td>
+                            <a asp-page="./PatientCard"  asp-route-id="@p.PatientId" class="btn" style="background-color:#78c2ad; width:100%">@p.LastName @p.FirstName @p.PaternalName</a>
+                        </td>
+                        <td>
+                            @p.PhoneNumber
+                        <td>
+                            @Model.Spent[p]
+                        </td>
+                        <td>
+                            @Model.Appointments.FindAll(a => a.Patient == p && a.IsDeleted == false).Count
+                        </td>
+                        <td>
+                            @Model.Appointments.FindAll(a => a.Patient == p && a.IsDeleted == false && a.IsMissed == false).Count
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+</div>

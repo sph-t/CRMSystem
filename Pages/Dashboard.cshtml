@@ -6,8 +6,8 @@
 }
 
 <div class="container">
-    <div class="row align-items-center">
-        <h2>Аналитический дэшборд за @Model.Date.Day.@Model.Date.Month.@Model.Date.Year</h2>
+    <div class="row">
+        <h2 class="text-center">Аналитический дэшборд за @Model.Date.Day.@Model.Date.Month.@Model.Date.Year</h2>
     </div>
     <br /><br />
 
@@ -16,19 +16,27 @@
 
      <div class="row">
          <div class="col-4">
-             <div class="card border-primary mb-3" style="height:90%">
+             <div class="card border-primary mb-3" style="max-width: 20rem; height:90%">
                   <div class="card-header">Текущая выручка</div>
                   <div class="card-body">
-                    <h4 class="card-title">@Model.Appointments.Where(a => a.IsMissed == false).Sum(a => a.Price)</h4>
+                    <h4 class="card-title">@if (!Model.IsEmpty)
+                        {
+                            @Model.Appointments.Where(a => a.IsMissed == false).Sum(a => a.Price)
+                        }
+                    </h4>
                     <p class="card-text">Общая выручка по записям на выбранную дату на данный момент</p>
                   </div>
               </div>
          </div>
          <div class="col-4">
-             <div class="card border-primary mb-3" style="height:90%">
+             <div class="card border-primary mb-3" style="max-width: 20rem; height:90%">
                   <div class="card-header">Количество посещённых записей</div>
                   <div class="card-body">
-                    <h4 class="card-title">@Model.Appointments.Where(a => a.IsMissed == false).Count()</h4>
+                    <h4 class="card-title">@if (!Model.IsEmpty)
+                        {
+                            @Model.Appointments.Where(a => a.IsMissed == false).Count()
+                        }
+                    </h4>
                     <p class="card-text"></p>
                   </div>
               </div>
@@ -37,7 +45,7 @@
              <div class="card border-primary mb-3" style="max-width: 20rem;height: 90%">
                   <div class="card-header">Количество запланированных записей</div>
                   <div class="card-body">
-                    <h4 class="card-title">@Model.Appointments.Count()</h4>
+                    <h4 class="card-title"> @if (!Model.IsEmpty) { @Model.Appointments.Count() } </h4>
                     <p class="card-text"></p>
                   </div>
               </div>
@@ -48,7 +56,11 @@
              <div class="card border-primary mb-3" style="max-width: 20rem; height: 90%">
                   <div class="card-header">Средний чек</div>
                   <div class="card-body">
-                    <h4 class="card-title">@($"{@Model.Appointments.Where(a => a.IsMissed == false).Sum(a => a.Price) / @Model.Appointments.Where(a => a.IsMissed == false).Count():0.##}")</h4>
+                    <h4 class="card-title"> @if (!Model.IsEmpty && @Model.Appointments.Where(a => a.IsMissed == false).Count() != 0)
+                        {
+                            @($"{@Model.Appointments.Where(a => a.IsMissed == false).Sum(a => a.Price) / @Model.Appointments.Where(a => a.IsMissed == false).Count():0.##}")
+                        }
+                    </h4>
                     <p class="card-text">Средний чек по всем выполненным записям</p>
                   </div>
               </div>
@@ -57,7 +69,11 @@
              <div class="card border-primary mb-3" style="max-width: 20rem; height: 90%">
                   <div class="card-header">Самая популярная услуга</div>
                   <div class="card-body">
-                    <h4 class="card-title">@Model.Appointments.GroupBy(a => a.Procedure).Select(group => new {procedure = group.Key, count = group.Count()}).OrderByDescending(g => g.count).First().procedure.Name</h4>
+                    <h4 class="card-title">@if (!Model.IsEmpty)
+                        {
+                            @Model.Appointments.GroupBy(a => a.Procedure).Select(group => new {procedure = group.Key, count = group.Count()}).OrderByDescending(g => g.count).First().procedure.Name
+                        }
+                    </h4>
                     <p class="card-text"></p>
                   </div>
               </div>
@@ -66,7 +82,11 @@
              <div class="card border-primary mb-3" style="max-width: 20rem; height: 90%">
                   <div class="card-header">Самая прибыльная услуга</div>
                   <div class="card-body">
-                    <h4 class="card-title">@Model.Appointments.GroupBy(a => a.Procedure).Select(group => new {procedure = group.Key, sum = group.Sum(p => p.Price)}).OrderByDescending(g => g.sum).First().procedure.Name</h4>
+                    <h4 class="card-title">@if (!Model.IsEmpty)
+                        {
+                            @Model.Appointments.GroupBy(a => a.Procedure).Select(group => new {procedure = group.Key, sum = group.Sum(p => p.Price)}).OrderByDescending(g => g.sum).First().procedure.Name
+                        }
+                    </h4>
                     <p class="card-text"></p>
                   </div>
               </div>

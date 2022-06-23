@@ -1,0 +1,63 @@
+﻿@page
+@model CRMSystem.Pages.SpecialistsStatisticsModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "Layouts/_Layout";
+}
+
+<div class="container" style="width:720px">
+    <div class="row">
+        <h2 class="text-center">Статистика по специалистам центра</h2>
+    </div>
+    <div class="row">
+        <table class="table table-striped" style="width:100%">
+                <thead class="text-center">
+                    <tr>
+                        <th>
+                            Ф.И.О
+                        </th>
+                        <th>
+                            Общая выручка
+                        </th>
+                        <th>
+                            Количество оказанных услуг
+                        </th>
+                        <th>
+                            Средний чек
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @foreach(var d in Model.AppointmentGroups)
+                    {
+                        
+                        <tr class="text-center">
+                            <td>
+                                @d.Key.LastName @d.Key.FirstName @d.Key.PaternalName
+                            </td>
+                            <td>
+                            @if (d.Count() != 0)
+                            {
+                                
+                                @d.Where(a => a.IsMissed == false).Sum(a => a.Price is null ? 0 : (double)a.Price)
+                            }
+                            </td>
+                            <td>
+                            @if (d.Count() != 0)
+                            {
+                                @d.Where(a => a.IsMissed == false).Count()
+                            }
+                        </td>
+                            <td>
+                            @if (d.Count() != 0)
+                            {
+                                @($"{d.Where(a => a.IsMissed == false).Sum(a => a.Price is null ? 0 : (double)a.Price) / d.Count():0.##}")
+                            }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+</div>

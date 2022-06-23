@@ -15,6 +15,7 @@ namespace CRMSystem.Pages
         public Patient MostLoyalPatient { get; set; }
         public Doctor MostPopularDoctor { get; set; }
         public Doctor MostProfitDoctor { get; set; }
+        public bool IsEmpty = false;
         public DashboardModel(CRMDbContext context)
         {
             _dbcontext = context;
@@ -35,6 +36,10 @@ namespace CRMSystem.Pages
             }
 
             Appointments = Appointments.FindAll(a => a.DatetimeStart.Date == Date && a.IsDeleted == false);
+            if (Appointments.Count() == 0)
+            {
+                IsEmpty = true;
+            }
             if (Appointments.GroupBy(a => a.Patient).Select(group => new { patient = group.Key, count = group.Count() }).OrderByDescending(g => g.count).Count() == 0)
             {
                 MostLoyalPatient = null;
